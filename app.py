@@ -23,6 +23,16 @@ def login():
         pass
     else:
         return render_template("login.html")
+    
+    
+@app.route("/register", methods=["GET","POST"])
+def register():
+    if request.method=="POST":
+        pass
+    else:
+        pass
+    
+
 
 
 if __name__ == "__main__":
