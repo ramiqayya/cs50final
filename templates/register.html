@@ -7,15 +7,16 @@
 {% block body %}
 <h1>Register</h1>
 
-<form action="/" method="POST">
+<form action="/register" method="POST">
 <label for="username">Username:</label>
-<input type="text" name="username" id="username" placeholder="Username">
+<input type="text" name="username" autocomplete="off" autofocus id="username" placeholder="Username">
 <br>
 <label for="password">Password:</label>
 <input type="password" name="password" placeholder="Password" id="password">
 <br>
 <label for="confirmation">Confirm Passowrd:</label>
-<input type="confirmation" name="confirmation" placeholder="Passowrd" id="confirmation">
+<input type="password" name="confirmation" placeholder="Passowrd" id="confirmation">
+<input type="submit" value="Register">
 </form>
 
 {% endblock %}

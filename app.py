@@ -16,6 +16,18 @@ db = SQL("sqlite:///projectv2.db")
 
 
 
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+    
+
     
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -44,7 +56,7 @@ def login():
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = rows[0]["user_id"]
 
         # Redirect user to home page
         return redirect("/")
@@ -57,9 +69,10 @@ def login():
 
 
 
-@app.route("/register", methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method=="POST":
+    if request.method == "POST":
+        print("d5ra")
         username= request.form.get("username")
         password= request.form.get("password")
         confirmation= request.form.get("confirmation")
@@ -79,14 +92,19 @@ def register():
             if user['username'] == username:
                 return apology("Username is taken", 400)
 
-        db.execute(
-            "INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
         
-        return redirect('/')
+        return redirect("/")
         
     else:
         return render_template("register.html")
     
+@app.route("/")
+@login_required
+def index():
+    name =db.execute("SELECT username FROM users WHERE user_id=?",session["user_id"])
+    
+    return render_template("index.html",username=name[0]["username"])
 
 
 
