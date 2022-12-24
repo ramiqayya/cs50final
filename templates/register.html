@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block head%}
+<title>Login page</title> 
+{% endblock %} 
+
+{% block body %}
+<h1>Login</h1>
+
+<form action="/" method="POST">
+<label for="username">Username:</label>
+<input type="text" name="username" id="username" placeholder="Username">
+<br>
+<label for="password">Password:</label>
+<input type="password" name="password" placeholder="Password" id="password">
+<br>
+<label for="confirmation">Confirm Passowrd:</label>
+<input type="confirmation" name="confirmation" placeholder="Passowrd" id="confirmation">
+</form>
+
+{% endblock %}
