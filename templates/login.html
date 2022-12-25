@@ -1,19 +1,36 @@
 {% extends "layout.html" %}
 
 {% block head%}
-<title>Login page</title> 
-{% endblock %} 
+<title>Login page</title>
+{% endblock %}
 
 {% block body %}
-<h1>Login</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
 
-<form action="/login" method="POST">
-<label for="username">Username:</label>
-<input type="text" autocomplete="off" autofocus name="username" id="username" placeholder="Username">
-<br>
-<label for="password">Password:</label>
-<input type="password" name="password" placeholder="Password" id="password">
-<input type="submit">
-</form>
+        </div>
+        <div class="col mt-3">
+            <h1 class="text-center">Login</h1>
+
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" class="form-control" autocomplete="off" autofocus name="username" id="username"
+                        placeholder="Username">
+                    <br>
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" name="password" class="form-control mb-3" placeholder="Password"
+                        id="password">
+                    <input class="btn btn-primary" type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

@@ -1,22 +1,39 @@
 {% extends "layout.html" %}
 
 {% block head%}
-<title>Login page</title> 
-{% endblock %} 
+<title>Login page</title>
+{% endblock %}
 
 {% block body %}
-<h1>Register</h1>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
 
-<form action="/register" method="POST">
-<label for="username">Username:</label>
-<input type="text" name="username" autocomplete="off" autofocus id="username" placeholder="Username">
-<br>
-<label for="password">Password:</label>
-<input type="password" name="password" placeholder="Password" id="password">
-<br>
-<label for="confirmation">Confirm Passowrd:</label>
-<input type="password" name="confirmation" placeholder="Passowrd" id="confirmation">
-<input type="submit" value="Register">
-</form>
+        </div>
+        <div class="col">
+            <h1 class="text-center">Register</h1>
+
+            <form action="/register" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username:</label>
+                    <input class="form-control" type="text" name="username" autocomplete="off" autofocus id="username"
+                        placeholder="Username">
+                    <br>
+                    <label class="form-label" for="password">Password:</label>
+                    <input class="form-control" type="password" name="password" placeholder="Password" id="password">
+                    <br>
+                    <label class="form-label" for="confirmation">Confirm Passowrd:</label>
+                    <input class="form-control" type="password" name="confirmation" placeholder="Passowrd"
+                        id="confirmation">
+                    <input class="btn btn-primary mt-3" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
