@@ -75,6 +75,15 @@ def buy(id):
     return redirect('/')
 
 
+@app.route("/requests", methods=["GET", "POST"])
+@login_required
+def requests():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("requests.html")
+
+
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
