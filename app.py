@@ -85,8 +85,8 @@ def sell():
         technical = request.form.get("technical")
         if not technical:
             return apology("must provide technical specifications")
-        db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical) VALUES (?,?,?,?,?,?)",
-                   make, model, year, mileage, price, technical)
+        db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical, user_id) VALUES (?,?,?,?,?,?,?)",
+                   make, model, year, mileage, price, technical, session["user_id"])
         return redirect("/")
 
     else:
