@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block head%}
+<title>Login page</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col mt-3">
+            <h1 class="text-center">Sell Car</h1>
+
+            <form action="/sell" method="POST">
+                <div class="mb-3">
+                    <label for="make" class="form-label">Make:</label>
+                    <input type="text" class="form-control" autocomplete="off" autofocus name="make" id="make"
+                        placeholder="Make">
+                    <br>
+                    <label for="model" class="form-label">Model:</label>
+                    <input type="text" class="form-control" autocomplete="off" name="model" id="model"
+                        placeholder="Model">
+                    <br>
+                    <label for="year" class="form-label">Year:</label>
+                    <input type="text" class="form-control" autocomplete="off" name="year" id="year"
+                        placeholder="Year">
+                    <br>
+                    <label for="mileage" class="form-label">Mileage:</label>
+                    <input type="text" class="form-control" autocomplete="off" name="mileage" id="mileage"
+                        placeholder="Mileage">
+                    <br>
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="text" class="form-control" autocomplete="off" name="price" id="price"
+                        placeholder="Price">
+                    <br>
+                    <label for="technical" class="form-label">Technical Specifications:</label>
+                    <input type="text" class="form-control mb-3" autocomplete="off" name="technical" id="technical"
+                        placeholder="Technical Specifications">
+
+                    <input class="btn btn-primary" type="submit" value="Sell Car">
+                </div>
+            </form>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

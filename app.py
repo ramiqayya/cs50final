@@ -15,8 +15,6 @@ Session(app)
 db = SQL("sqlite:///projectv2.db")
 
 
-
-
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -26,9 +24,8 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
-    
 
-    
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -66,16 +63,42 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/sell", methods=["GET", "POST"])
+@login_required
+def sell():
+    if request.method == "POST":
+        make = request.form.get("make")
+        if not make:
+            return apology("must provide make")
+        model = request.form.get("model")
+        if not model:
+            return apology("must provide model")
+        year = request.form.get("year")
+        if not year:
+            return apology("must provide year")
+        mileage = request.form.get("mileage")
+        if not mileage:
+            return apology("must provide mileage")
+        price = request.form.get("price")
+        if not price:
+            return apology("must provide price")
+        technical = request.form.get("technical")
+        if not technical:
+            return apology("must provide technical specifications")
+        db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical) VALUES (?,?,?,?,?,?)",
+                   make, model, year, mileage, price, technical)
+        return redirect("/")
 
+    else:
+        return render_template("addcar.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        print("d5ra")
-        username= request.form.get("username")
-        password= request.form.get("password")
-        confirmation= request.form.get("confirmation")
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
         if not request.form.get("username"):
             return apology("must provide username", 400)
 
@@ -84,7 +107,7 @@ def register():
 
         elif password != confirmation:
             return apology("Passwords do not match", 400)
-        
+
         hash = generate_password_hash(password)
         users = db.execute("SELECT username FROM users")
         # print(users)
@@ -92,20 +115,22 @@ def register():
             if user['username'] == username:
                 return apology("Username is taken", 400)
 
-        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
-        
+        db.execute(
+            "INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
+
         return redirect("/")
-        
+
     else:
         return render_template("register.html")
-    
+
+
 @app.route("/")
 @login_required
 def index():
-    name =db.execute("SELECT username FROM users WHERE user_id=?",session["user_id"])
-    
-    return render_template("index.html",username=name[0]["username"])
+    name = db.execute(
+        "SELECT username FROM users WHERE user_id=?", session["user_id"])
 
+    return render_template("index.html", username=name[0]["username"])
 
 
 if __name__ == "__main__":
