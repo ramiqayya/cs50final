@@ -69,7 +69,7 @@ def login():
 @login_required
 def buy(id):
     car_to_buy = id
-    db.execute("INSERT INTO requests (user_id, car_id) VALUES (?,?)",
+    db.execute("INSERT INTO requests (buyer_id, car_id) VALUES (?,?)",
                session["user_id"], car_to_buy)
 
     return redirect('/')
@@ -81,7 +81,13 @@ def requests():
     if request.method == "POST":
         pass
     else:
-        return render_template("requests.html")
+        # reqs=db.execute("SELECT * FROM requests")
+        mycars = db.execute(
+            "SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id WHERE seller_id=?", session["user_id"])
+        buyers = db.execute(
+            "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
+
+        return render_template("requests.html", mycars=mycars, buyers=buyers)
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -152,7 +158,7 @@ def index():
         "SELECT username FROM users WHERE user_id=?", session["user_id"])
     # cars = db.execute("SELECT * FROM cars")
     cars = db.execute(
-        "SELECT * FROM users JOIN cars ON cars.user_id=users.user_id")
+        "SELECT * FROM users JOIN cars ON cars.seller_id=users.user_id")
     print(cars)
 
     return render_template("index.html",  username=name[0]["username"], cars=cars)

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block head%}
+<title>Requests</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col mt-3">
+            <h1 class="text-center">Buy Requests</h1>
+            {%if not buyers %}
+            <h2>You don't have any purchasing request</h2>
+            {%else%}
+            {%for buyer in buyers%}
+            <form action="/request" method="POST">
+                <div class="mb-3">
+                    <div class="alert alert-success" role="alert">
+                        {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car
+                        year:{{buyer.year}}
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Agree?">
+                </div>
+            </form>
+            {%endfor%}
+            {%endif%}
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

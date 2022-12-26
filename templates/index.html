@@ -28,7 +28,7 @@
                     <li class="list-group-item">price: {{car.price| usd}}</li>
                 </ul>
                 <div class="card-body">
-                    {% if session["user_id"]!= car.user_id%}
+                    {% if session["user_id"]!= car.seller_id %}
                     <a href="/buy/{{car.car_id}}" class="btn btn-outline-primary">Buy Car</a>
                     {%endif%}
 
