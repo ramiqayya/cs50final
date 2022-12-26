@@ -16,7 +16,7 @@
             <h2>You don't have any purchasing request</h2>
             {%else%}
             {%for buyer in buyers%}
-            <form action="/request" method="POST">
+            <form action="/requests/{{buyer.car_id}}" method="POST">
                 <div class="mb-3">
                     <div class="alert alert-success" role="alert">
                         {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car

@@ -75,19 +75,29 @@ def buy(id):
     return redirect('/')
 
 
-@app.route("/requests", methods=["GET", "POST"])
+@app.route("/requests")
 @login_required
 def requests():
-    if request.method == "POST":
-        pass
-    else:
-        # reqs=db.execute("SELECT * FROM requests")
-        mycars = db.execute(
-            "SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id WHERE seller_id=?", session["user_id"])
-        buyers = db.execute(
-            "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
+    # if request.method == "POST":
+    #     db.execute("SELECT * FROM requests WHERE ")
+    #     db.execute("DELETE from")
+    # else:
+    # reqs=db.execute("SELECT * FROM requests")
+    # mycars = db.execute(
+    #     "SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id WHERE seller_id=?", session["user_id"])
+    buyers = db.execute(
+        "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
 
-        return render_template("requests.html", mycars=mycars, buyers=buyers)
+    return render_template("requests.html", buyers=buyers)
+
+
+@app.route("/requests/<id>", methods=["POST"])
+@login_required
+def delete(id):
+    print(id)
+    db.execute("DELETE FROM requests WHERE car_id=?", id)
+    db.execute("DELETE FROM cars WHERE car_id=?", id)
+    return redirect("/requests")
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -112,7 +122,7 @@ def sell():
         technical = request.form.get("technical")
         if not technical:
             return apology("must provide technical specifications")
-        db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical, user_id) VALUES (?,?,?,?,?,?,?)",
+        db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical, seller_id) VALUES (?,?,?,?,?,?,?)",
                    make, model, year, mileage, price, technical, session["user_id"])
         return redirect("/")
 
