@@ -62,9 +62,6 @@ def usd(value):
     return f"${value:,.2f}"
 
 
-
 def km(value):
     """Format number"""
     return f"{value:,.0f} km"
-
-

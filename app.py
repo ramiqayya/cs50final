@@ -65,6 +65,16 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/buy/<int:id>")
+@login_required
+def buy(id):
+    car_to_buy = id
+    db.execute("INSERT INTO requests (user_id, car_id) VALUES (?,?)",
+               session["user_id"], car_to_buy)
+
+    return redirect('/')
+
+
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
