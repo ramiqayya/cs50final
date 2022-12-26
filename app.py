@@ -1,13 +1,15 @@
 import os
 from flask import Flask, redirect, render_template, url_for, request, session
 from flask_session import Session
-from helpers import apology, login_required
+from helpers import apology, login_required, usd, km
 from werkzeug.security import check_password_hash, generate_password_hash
 from cs50 import SQL
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+app.jinja_env.filters["usd"] = usd
+app.jinja_env.filters["km"] = km
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -129,8 +131,12 @@ def register():
 def index():
     name = db.execute(
         "SELECT username FROM users WHERE user_id=?", session["user_id"])
+    # cars = db.execute("SELECT * FROM cars")
+    cars = db.execute(
+        "SELECT * FROM users JOIN cars ON cars.user_id=users.user_id")
+    print(cars)
 
-    return render_template("index.html", username=name[0]["username"])
+    return render_template("index.html",  username=name[0]["username"], cars=cars)
 
 
 if __name__ == "__main__":

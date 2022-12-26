@@ -60,3 +60,11 @@ def login_required(f):
 def usd(value):
     """Format value as USD."""
     return f"${value:,.2f}"
+
+
+
+def km(value):
+    """Format number"""
+    return f"{value:,.0f} km"
+
+

@@ -7,5 +7,40 @@
 {% block body%}
 <h1>Hello, {{username}}</h1>
 
+{% for car in cars %}
+<div class="container text-center mb-1">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{car.make}}</h5>
+                    <p class="card-text">{{car.technical}}.</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Model: {{car.model}}</li>
+                    <li class="list-group-item">Added by: {{car.username}}</li>
+                    <li class="list-group-item">Year: {{car.year}}</li>
+                    <li class="list-group-item">Mileage: {{car.mileage|km}}</li>
+                    <li class="list-group-item">price: {{car.price| usd}}</li>
+                </ul>
+                <div class="card-body">
+{% if session["user_id"]!= car.user_id%}
+                    <a href="/buy" class="btn btn-outline-primary">Buy Car</a>
+{%endif%}
+                  
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 
 {% endblock %}
