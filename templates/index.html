@@ -20,8 +20,8 @@
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Congratulations!</strong> Your request No. {{req.request_id}} for buying {{req.car_make}}
                 {{req.car_model}} from {{req.seller_name}} has been approved.
-                <form action="/" method="POST">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <form action="/r/{{req.request_id}}" method="POST">
+                    <button type="submit" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </form>
             </div>
             {% endfor %}

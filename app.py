@@ -117,10 +117,17 @@ def agree(id):
     return redirect("/requests")
 
 
+@app.route("/r/<id>", methods=["POST"])
+@login_required
+def dismiss(id):
+    print(id)
+    db.execute("DELETE FROM approved WHERE request_id=?", id)
+    return redirect("/")
+
+
 @app.route("/requests/reject/<id>", methods=["POST"])
 @login_required
 def reject(id):
-    print(id)
     db.execute("DELETE FROM requests WHERE car_id=?", id)
     return redirect("/requests")
 
