@@ -11,9 +11,11 @@
 
         </div>
         <div class="col mt-3">
+
             <h1 class="text-center">Buy Requests</h1>
             {%if not buyers %}
-            <h2>You don't have any purchasing request</h2>
+            <div class="alert alert-warning" role="alert">You don't have any purchasing request</div>
+
             {%else%}
             {%for buyer in buyers%}
 
@@ -23,6 +25,11 @@
                     year:{{buyer.year}}
                 </div>
                 <form action="/requests/agree/{{buyer.car_id}}" method="POST">
+                    <input type="text" name="buyer" value="{{buyer.username}}" hidden>
+                    <input type="text" name="buyerid" value="{{buyer.user_id}}" hidden>
+                    <input type="text" name="req_id" value="{{buyer.req_id}}" hidden>
+                    <input type="text" name="make" value="{{buyer.make}}" hidden>
+                    <input type="text" name="model" value="{{buyer.model}}" hidden>
                     <input class="btn btn-primary" type="submit" value="Agree?">
                 </form>
                 <form action="/requests/reject/{{buyer.car_id}}" method="POST">

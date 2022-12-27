@@ -101,7 +101,17 @@ def requests():
 @app.route("/requests/agree/<id>", methods=["POST"])
 @login_required
 def agree(id):
-    print(id)
+    buyername = request.form.get('buyer')
+    buyerid = request.form.get('buyerid')
+    req_id = request.form.get('req_id')
+    make = request.form.get('make')
+    model = request.form.get('model')
+    seller_name = db.execute(
+        "SELECT username FROM users WHERE user_id=?", session["user_id"])
+    print(buyername, buyerid)
+    db.execute(
+        "INSERT INTO approved (request_id,buyerid,car_make,car_model,seller_name) VALUES(?,?,?,?,?)", req_id, buyerid, make, model, seller_name[0]["username"])
+
     db.execute("DELETE FROM requests WHERE car_id=?", id)
     db.execute("DELETE FROM cars WHERE car_id=?", id)
     return redirect("/requests")
@@ -186,9 +196,9 @@ def index():
         "SELECT * FROM users JOIN cars ON cars.seller_id=users.user_id")
     requests = db.execute("SELECT * FROM requests WHERE buyer_id=?",
                           session["user_id"])
-    print(requests)
-
-    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests)
+    appreqs = db.execute(
+        "SELECT * FROM approved WHERE buyerid=?", session["user_id"])
+    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests, appreqs=appreqs)
 
 
 if __name__ == "__main__":
