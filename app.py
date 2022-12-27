@@ -91,12 +91,20 @@ def requests():
     return render_template("requests.html", buyers=buyers)
 
 
-@app.route("/requests/<id>", methods=["POST"])
+@app.route("/requests/agree/<id>", methods=["POST"])
 @login_required
-def delete(id):
+def agree(id):
     print(id)
     db.execute("DELETE FROM requests WHERE car_id=?", id)
     db.execute("DELETE FROM cars WHERE car_id=?", id)
+    return redirect("/requests")
+
+
+@app.route("/requests/reject/<id>", methods=["POST"])
+@login_required
+def reject(id):
+    print(id)
+    db.execute("DELETE FROM requests WHERE car_id=?", id)
     return redirect("/requests")
 
 

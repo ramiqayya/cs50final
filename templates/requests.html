@@ -16,15 +16,20 @@
             <h2>You don't have any purchasing request</h2>
             {%else%}
             {%for buyer in buyers%}
-            <form action="/requests/{{buyer.car_id}}" method="POST">
-                <div class="mb-3">
-                    <div class="alert alert-success" role="alert">
-                        {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car
-                        year:{{buyer.year}}
-                    </div>
-                    <input class="btn btn-primary" type="submit" value="Agree?">
+
+            <div class="mb-3">
+                <div class="alert alert-success" role="alert">
+                    {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car
+                    year:{{buyer.year}}
                 </div>
-            </form>
+                <form action="/requests/agree/{{buyer.car_id}}" method="POST">
+                    <input class="btn btn-primary" type="submit" value="Agree?">
+                </form>
+                <form action="/requests/reject/{{buyer.car_id}}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Reject">
+                </form>
+            </div>
+
             {%endfor%}
             {%endif%}
         </div>
