@@ -65,12 +65,19 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/buy/<int:id>")
+@app.route("/buy/<id>", methods=["POST"])
 @login_required
 def buy(id):
     car_to_buy = id
-    db.execute("INSERT INTO requests (buyer_id, car_id) VALUES (?,?)",
-               session["user_id"], car_to_buy)
+    disable = True
+    requests = db.execute("SELECT * FROM requests WHERE buyer_id=? AND car_id=?",
+                          session["user_id"], car_to_buy)
+    if not requests:
+        db.execute("INSERT INTO requests (buyer_id, car_id) VALUES (?,?)",
+                   session["user_id"], car_to_buy)
+    else:
+
+        return apology("request has been already sent!")
 
     return redirect('/')
 
@@ -177,9 +184,11 @@ def index():
     # cars = db.execute("SELECT * FROM cars")
     cars = db.execute(
         "SELECT * FROM users JOIN cars ON cars.seller_id=users.user_id")
-    print(cars)
+    requests = db.execute("SELECT * FROM requests WHERE buyer_id=?",
+                          session["user_id"])
+    print(requests)
 
-    return render_template("index.html",  username=name[0]["username"], cars=cars)
+    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests)
 
 
 if __name__ == "__main__":

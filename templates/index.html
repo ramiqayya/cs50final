@@ -29,7 +29,11 @@
                 </ul>
                 <div class="card-body">
                     {% if session["user_id"]!= car.seller_id %}
-                    <a href="/buy/{{car.car_id}}" class="btn btn-outline-primary">Buy Car</a>
+                    <form action="/buy/{{car.car_id}}" method="POST">
+                        <button class="btn btn-primary" {%for request in requests%} {%if car.car_id==request['car_id']
+                            %} disabled {%endif %} {%endfor %}> Buy Car</button>
+                    </form>
+
                     {%endif%}
 
                 </div>
