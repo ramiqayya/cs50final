@@ -3,9 +3,21 @@ from flask import Flask, redirect, render_template, url_for, request, session
 from flask_session import Session
 from helpers import apology, login_required, usd, km
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
 from cs50 import SQL
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['UPLOAD_FOLDER'] = 'static/files'
+
+
+class UploadFileForm(FlaskForm):
+    file = FileField("File")
+    submit = SubmitField("Upload File")
+
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 app.jinja_env.filters["usd"] = usd
@@ -114,6 +126,7 @@ def agree(id):
 
     db.execute("DELETE FROM requests WHERE car_id=?", id)
     db.execute("DELETE FROM cars WHERE car_id=?", id)
+    db.execute("DELETE FROM images WHERE car_id=?", id)
     return redirect("/requests")
 
 
@@ -135,7 +148,9 @@ def reject(id):
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
+    form = UploadFileForm()
     if request.method == "POST":
+
         make = request.form.get("make")
         if not make:
             return apology("must provide make")
@@ -154,12 +169,35 @@ def sell():
         technical = request.form.get("technical")
         if not technical:
             return apology("must provide technical specifications")
+
+        file = form.file.data
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                               app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                               app.config['UPLOAD_FOLDER'], secure_filename(file.filename)), 'rb') as f:
+            data = f.read()
+
+        # image = request.files.get("image")
+        # if not image:
+        #     return apology("must provide image")
+
         db.execute("INSERT INTO cars ( make, model, year, mileage, price, technical, seller_id) VALUES (?,?,?,?,?,?,?)",
                    make, model, year, mileage, price, technical, session["user_id"])
+        car_id = db.execute(
+            "SELECT car_id FROM cars ORDER BY car_id DESC LIMIT 1")
+        db.execute("INSERT INTO images (img,car_id) VALUES (?,?)",
+                   data, car_id[0]['car_id'])
+
+        # try:
+        #     db.execute(
+        #         "INSERT INTO images (car_id,img) VALUES(?,?)", car_id, image)
+        # except:
+        #     return apology("NO FILES FOUND")
+
         return redirect("/")
 
     else:
-        return render_template("addcar.html")
+        return render_template("addcar.html", form=form)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -196,6 +234,7 @@ def register():
 @app.route("/")
 @login_required
 def index():
+
     name = db.execute(
         "SELECT username FROM users WHERE user_id=?", session["user_id"])
     # cars = db.execute("SELECT * FROM cars")

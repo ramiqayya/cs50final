@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block head%}
-<title>Login page</title>
+<title>Sell Car</title>
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
         <div class="col mt-3">
             <h1 class="text-center">Sell Car</h1>
 
-            <form action="/sell" method="POST">
+            <form action="/sell" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="make" class="form-label">Make:</label>
                     <input type="text" class="form-control" autocomplete="off" autofocus name="make" id="make"
@@ -31,12 +31,20 @@
                         placeholder="Mileage">
                     <br>
                     <label for="price" class="form-label">Price ($):</label>
-                    <input type="text" class="form-control" autocomplete="off" name="price" id="price"
+                    <input type="text" class="form-control mb-3" autocomplete="off" name="price" id="price"
                         placeholder="Price">
+                    {{form.hidden_tag()}}
+                    <!-- {{form.file()}} -->
+                    <!-- {{form.submit()}} -->
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Image:</label>
+                        <input class="form-control" name="file" type="file" id="file">
+                    </div>
+
                     <br>
                     <label for="technical" class="form-label">Technical Specifications:</label>
-                    <textarea type="text" class="form-control mb-3" autocomplete="off" name="technical"
-                        id="technical">Technical Specifications</textarea>
+                    <textarea type="text" class="form-control mb-3" autocomplete="off" name="technical" id="technical"
+                        placeholder="Write Specifications"></textarea>
 
                     <input class="btn btn-primary" type="submit" value="Sell Car">
                 </div>

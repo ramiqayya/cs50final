@@ -17,7 +17,7 @@
         </div>
         <div class="col-6">
             {% for req in appreqs%}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Congratulations!</strong> Your request No. {{req.request_id}} for buying {{req.car_make}}
                 {{req.car_model}} from {{req.seller_name}} has been approved.
                 <form action="/r/{{req.request_id}}" method="POST">
