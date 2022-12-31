@@ -19,22 +19,24 @@
             {%else%}
             {%for buyer in buyers%}
 
-            <div class="mb-3">
+            <div class="mb-3 mt-5 message">
                 <div class="alert alert-success" role="alert">
                     {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car
                     year:{{buyer.year}}
                 </div>
-                <form action="/requests/agree/{{buyer.car_id}}" method="POST">
-                    <input type="text" name="buyer" value="{{buyer.username}}" hidden>
-                    <input type="text" name="buyerid" value="{{buyer.user_id}}" hidden>
-                    <input type="text" name="req_id" value="{{buyer.req_id}}" hidden>
-                    <input type="text" name="make" value="{{buyer.make}}" hidden>
-                    <input type="text" name="model" value="{{buyer.model}}" hidden>
-                    <input class="btn btn-primary" type="submit" value="Agree?">
-                </form>
-                <form action="/requests/reject/{{buyer.car_id}}" method="POST">
-                    <input class="btn btn-danger" type="submit" value="Reject">
-                </form>
+                <div class="buttons">
+                    <form action="/requests/agree/{{buyer.car_id}}" method="POST">
+                        <input type="text" name="buyer" value="{{buyer.username}}" hidden>
+                        <input type="text" name="buyerid" value="{{buyer.user_id}}" hidden>
+                        <input type="text" name="req_id" value="{{buyer.req_id}}" hidden>
+                        <input type="text" name="make" value="{{buyer.make}}" hidden>
+                        <input type="text" name="model" value="{{buyer.model}}" hidden>
+                        <input class="btn btn-primary" type="submit" value="Agree?">
+                    </form>
+                    <form action="/requests/reject/{{buyer.car_id}}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Reject">
+                    </form>
+                </div>
             </div>
 
             {%endfor%}

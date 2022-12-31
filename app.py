@@ -230,7 +230,9 @@ def sell():
         return redirect("/")
 
     else:
-        return render_template("addcar.html", form=form)
+        buyers = db.execute(
+            "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
+        return render_template("addcar.html", form=form, buyers=buyers)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -282,7 +284,11 @@ def index():
 
     appreqs = db.execute(
         "SELECT * FROM approved WHERE buyerid=?", session["user_id"])
-    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests, appreqs=appreqs, images=images)
+
+    buyers = db.execute(
+        "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
+
+    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests, appreqs=appreqs, images=images, buyers=buyers)
 
 
 if __name__ == "__main__":
