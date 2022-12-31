@@ -7,6 +7,9 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from cs50 import SQL
 from werkzeug.utils import secure_filename
+import asyncio
+import time
+import shutil
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -124,9 +127,14 @@ def agree(id):
     db.execute(
         "INSERT INTO approved (request_id,buyerid,car_make,car_model,seller_name) VALUES(?,?,?,?,?)", req_id, buyerid, make, model, seller_name[0]["username"])
 
+    # img_id = db.execute("SELECT * FROM images WHERE car_id=?", id)
+    # image_id = img_id[0]['img_id']
     db.execute("DELETE FROM requests WHERE car_id=?", id)
     db.execute("DELETE FROM cars WHERE car_id=?", id)
     db.execute("DELETE FROM images WHERE car_id=?", id)
+    locatin = "./static/images/"+id
+    shutil.rmtree(locatin, ignore_errors=True)
+
     return redirect("/requests")
 
 
@@ -185,8 +193,33 @@ def sell():
                    make, model, year, mileage, price, technical, session["user_id"])
         car_id = db.execute(
             "SELECT car_id FROM cars ORDER BY car_id DESC LIMIT 1")
+        car_id1 = car_id[0]['car_id']
         db.execute("INSERT INTO images (img,car_id) VALUES (?,?)",
-                   data, car_id[0]['car_id'])
+                   data, car_id1)
+        img_id = db.execute(
+            "SELECT img_id FROM images ORDER BY img_id DESC LIMIT 1")
+        img_id1 = img_id[0]['img_id']
+
+        print('image id =', img_id1)
+        print('car id =', car_id1)
+
+        img = db.execute(
+            "SELECT img FROM images WHERE car_id=?", car_id1)
+
+        for imm in img:
+            data = imm
+
+        # sourceFile = open('output.txt', 'w')
+        # print(data, file=sourceFile)
+        # sourceFile.close()
+
+        # print(data)
+
+        if not os.path.exists(str(car_id1)):
+            os.mkdir('./static/images/'+str(car_id1))
+
+        with open('./static/images/'+str(car_id1)+'/'+str(img_id1)+'.jpg', 'wb') as carimg:
+            carimg.write(data['img'])
 
         # try:
         #     db.execute(
@@ -237,14 +270,19 @@ def index():
 
     name = db.execute(
         "SELECT username FROM users WHERE user_id=?", session["user_id"])
+
     # cars = db.execute("SELECT * FROM cars")
     cars = db.execute(
         "SELECT * FROM users JOIN cars ON cars.seller_id=users.user_id")
+
+    images = db.execute(
+        "SELECT * FROM images JOIN (SELECT * FROM users JOIN cars ON cars.seller_id=users.user_id) AS imm ON imm.car_id=images.car_id")
     requests = db.execute("SELECT * FROM requests WHERE buyer_id=?",
                           session["user_id"])
+
     appreqs = db.execute(
         "SELECT * FROM approved WHERE buyerid=?", session["user_id"])
-    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests, appreqs=appreqs)
+    return render_template("index.html",  username=name[0]["username"], cars=cars, requests=requests, appreqs=appreqs, images=images)
 
 
 if __name__ == "__main__":

@@ -26,24 +26,24 @@
             </div>
             {% endfor %}
 
-            {% for car in cars %}
+            {% for imm in images %}
             <div class="card">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="./static/images/{{imm.car_id}}/{{imm.img_id}}.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{car.make}} -- {{car.model}}</h5>
-                    <p class="card-text">{{car.technical}}.</p>
+                    <h5 class="card-title">{{imm.make}} -- {{imm.model}}</h5>
+                    <p class="card-text">{{imm.technical}}.</p>
                 </div>
                 <ul class="list-group list-group-flush">
 
-                    <li class="list-group-item">Added by: {{car.username}}</li>
-                    <li class="list-group-item">Year: {{car.year}}</li>
-                    <li class="list-group-item">Mileage: {{car.mileage|km}}</li>
-                    <li class="list-group-item">price: {{car.price| usd}}</li>
+                    <li class="list-group-item">Added by: {{imm.username}}</li>
+                    <li class="list-group-item">Year: {{imm.year}}</li>
+                    <li class="list-group-item">Mileage: {{imm.mileage|km}}</li>
+                    <li class="list-group-item">price: {{imm.price| usd}}</li>
                 </ul>
                 <div class="card-body">
-                    {% if session["user_id"]!= car.seller_id %}
-                    <form action="/buy/{{car.car_id}}" method="POST">
-                        <button class="btn btn-primary" {%for request in requests%} {%if car.car_id==request['car_id']
+                    {% if session["user_id"]!= imm.seller_id %}
+                    <form action="/buy/{{imm.car_id}}" method="POST">
+                        <button class="btn btn-primary" {%for request in requests%} {%if imm.car_id==request['car_id']
                             %} disabled {%endif %} {%endfor %}> Buy Car</button>
                     </form>
 
