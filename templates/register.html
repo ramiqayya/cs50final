@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block head%}
-<title>Login page</title>
+<title>Register page</title>
 {% endblock %}
 
 {% block body %}
@@ -11,10 +11,10 @@
 
         </div>
         <div class="col">
-            <h1 class="text-center">Register</h1>
+            <h1 class="text-center text-light">Register</h1>
 
             <form action="/register" method="POST">
-                <div class="mb-3">
+                <div class="mb-3 text-light">
                     <label class="form-label" for="username">Username:</label>
                     <input class="form-control" type="text" name="username" autocomplete="off" autofocus id="username"
                         placeholder="Username">
@@ -25,7 +25,7 @@
                     <label class="form-label" for="confirmation">Confirm Passowrd:</label>
                     <input class="form-control" type="password" name="confirmation" placeholder="Passowrd"
                         id="confirmation">
-                    <input class="btn btn-primary mt-3" type="submit" value="Register">
+                    <input class="btn btn-dark btn-outline-light mt-3" type="submit" value="Register">
                 </div>
             </form>
         </div>

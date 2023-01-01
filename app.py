@@ -109,8 +109,11 @@ def requests():
     #     "SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id WHERE seller_id=?", session["user_id"])
     buyers = db.execute(
         "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
+    name = db.execute(
+        "SELECT username FROM users WHERE user_id=?", session["user_id"])
+    username = name[0]['username']
 
-    return render_template("requests.html", buyers=buyers)
+    return render_template("requests.html", buyers=buyers, username=username)
 
 
 @app.route("/requests/agree/<id>", methods=["POST"])
@@ -230,9 +233,14 @@ def sell():
         return redirect("/")
 
     else:
+
+        name = db.execute(
+            "SELECT username FROM users WHERE user_id=?", session["user_id"])
+        username = name[0]['username']
+
         buyers = db.execute(
             "SELECT * FROM users JOIN (SELECT * FROM cars JOIN requests ON requests.car_id=cars.car_id) AS tt ON tt.buyer_id=users.user_id WHERE seller_id=?", session["user_id"])
-        return render_template("addcar.html", form=form, buyers=buyers)
+        return render_template("addcar.html", form=form, buyers=buyers, username=username)
 
 
 @app.route("/register", methods=["GET", "POST"])

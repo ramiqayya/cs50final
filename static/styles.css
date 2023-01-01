@@ -14,6 +14,11 @@
 
 }
 
+.title {
+    border-radius: 25px;
+    border: solid white 2px;
+}
+
 body {
 
     height: 100vh;
