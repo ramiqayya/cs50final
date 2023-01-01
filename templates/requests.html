@@ -12,14 +12,14 @@
         </div>
         <div class="col mt-3">
 
-            <h1 class="text-center">Buy Requests</h1>
+            <h1 class="text-center text-light">Buy Requests</h1>
             {%if not buyers %}
             <div class="alert alert-warning" role="alert">You don't have any purchasing request</div>
 
             {%else%}
             {%for buyer in buyers%}
 
-            <div class="mb-3 mt-5 message">
+            <div class="mb-3 mt-5 message bg-dark">
                 <div class="alert alert-success" role="alert">
                     {{buyer.username}} has requested to buy the {{buyer.make}} {{buyer.model}} car
                     year:{{buyer.year}}
