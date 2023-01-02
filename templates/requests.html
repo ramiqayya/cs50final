@@ -34,6 +34,7 @@
                         <input class="btn btn-primary" type="submit" value="Agree?">
                     </form>
                     <form action="/requests/reject/{{buyer.car_id}}" method="POST">
+                        <input type="text" name="buyerid" value="{{buyer.user_id}}" hidden>
                         <input class="btn btn-danger" type="submit" value="Reject">
                     </form>
                 </div>

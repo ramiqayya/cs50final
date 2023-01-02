@@ -152,7 +152,9 @@ def dismiss(id):
 @app.route("/requests/reject/<id>", methods=["POST"])
 @login_required
 def reject(id):
-    db.execute("DELETE FROM requests WHERE car_id=?", id)
+    buyerid = request.form.get('buyerid')
+    print(buyerid)
+    db.execute("DELETE FROM requests WHERE buyer_id=?", buyerid)
     return redirect("/requests")
 
 
