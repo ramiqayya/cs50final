@@ -15,7 +15,24 @@ You can add a new car Advirtisement for selling your car by chosing (Sell Car) b
 After you inputted all the information required you can press on Sell Car at the end of the Sell form the car Ad will be posted at the index page with other car Ads.
 
 ## Receiving buy requests
-When other users send a purchase request for buying your car you will see notifications at the navbar under buy requests. Click that and you will be transfered to a buy requests page where you can see all request for your Ads. You can choose then choose agree or disagree on each car request. Notice that you can only agree at one car buyer for each car once you hit agree at car request, all other requests asking to buy the same car will be deleted immediatly.
+When other users send a purchase request for buying one of your cars, a notifications will appear at the navbar under buy requests button, with the number of requests you have. Click that and you will be transfered to a buy requests, a page where you can see all requests for buying your car/s. You can click agree or disagree on each car request. Notice that you can only agree at one request for each car, once you hit agree at car request, all other requests asking to buy the same car will be deleted immediatly.
+
+## Notification for approved request
+As soon as your request for buying a car is approved buy the seller a notification will appear in the hompage informing you that the seller has approved on your request.
+
+## Database tables
+
+### users table
+This table stores user ID with username and a hash for the password.
+### cars table
+This table stores each car ID, make, model, year, milage, price, seller user id and technical specification for each car which has been entered by the seller from sell car form.
+### images table
+This table stores images for each car as a blob. Each image is linked to a car id.
+### requests table 
+When a buyer sends a request for buying a car, the request button will be deactivated, and a request will be sent to the seller user, this request is going to be saved also in the database under table caller requests. and the request will be saved there until the seller take a decision for approving or rejecting your or other user request for buying the same car. That time it will be deleted from the requests table in the database.
+### approved table
+When the seller approved for a car buy request it will be saved under table called approved. That table stores the approved request ID, the buyer ID, the car make, the car model, and the name of the seller.
+all these informations will be deleted once the buyer see the message and dismiss it.
 
 
 
