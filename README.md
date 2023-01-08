@@ -1,4 +1,5 @@
 # CS50 Final Project
+#### Video Demo: [YouTube Video](https://www.youtube.com/watch?v=iJ6E7yFjp_g)
 ## Sell My Car Website
 My final project is a website service to sell and buy cars using HTML, python, flask, and sqlite3 for the database. I have also used bootstrap and CSS for styles.
 
@@ -33,3 +34,6 @@ When a buyer sends a request for buying a car, the request button will be deacti
 ### approved table
 When the seller approved a car buy request it will be saved under the table called approved. That table stores the approved request ID, the buyer ID, the car make, the car model, and the name of the seller.
 all this information will be deleted once the buyer sees the message and dismiss it.
+
+## Error handling
+Inside helpers.py, there is a function named apology which is responsible for some of the error messages also there is an HTML template called also apology.html for displaying error messages.
